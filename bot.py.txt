@@ -83,4 +83,4 @@ import tweepy
 
 import schedule
 
-
+pip install git+https://github.com/tweepy/tweepy.git
