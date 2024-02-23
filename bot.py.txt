@@ -1,0 +1,86 @@
+import tweepy
+import time
+import random
+from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+stop_words = set(stopwords.words('arabic'))
+
+def (): @heera181
+    # استبدل هذه المعلومات بمعلومات حساب تويتر الخاص بك
+    consumer_key = "YOUR_CONSUMER_KEY"
+    consumer_secret = "YOUR_CONSUMER_SECRET"
+    access_token = "YOUR_ACCESS_TOKEN"
+    access_token_secret = "YOUR_ACCESS_TOKEN_SECRET"
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+
+    return tweepy.API(auth)
+
+def get_random_quote():
+    # استبدل هذا الملف بملف يحتوي على اقتباسات عربية
+    with open("arabic_quotes.txt", "r") as f:
+        quotes = f.readlines()
+
+    return random.choice(quotes).strip()
+
+def get_related_hashtags(word):
+    # استبدل هذا الملف بملف يحتوي على قاموس عربي
+    with open("arabic_dictionary.py", "r") as f:
+        dictionary = f.readlines()
+
+    related_words = []
+    for line in dictionary:
+        line = line.strip()
+        if line.startswith(word + ","):
+            related_words.append(line.split(",")[1])
+
+    return related_words
+
+def tweet_quote():
+    api = authenticate_twitter()
+    quote = get_random_quote()
+    hashtags = get_related_hashtags(quote)
+
+    # إزالة كلمات التوقف
+    tokens = word_tokenize(quote)
+    filtered_tokens = [token for token in tokens if token not in stop_words]
+
+    # تحويل الكلمات إلى هاشتاق
+    hashtags.extend(["#" + token for token in filtered_tokens])
+
+    # نشر التغريدة
+    api.update_status(quote + " " + " ".join(hashtags))
+
+
+while True:
+    tweet_quote()
+    time.sleep(3600) # تغريدة كل 3 ساعات
+
+import tweepy
+
+# @heera181
+CONSUMER_KEY = "CONSUMER_KEY"
+CONSUMER_SECRET = "CONSUMER_SECRET"
+ACCESS_TOKEN = "ACCESS_TOKEN"
+ACCESS_TOKEN_SECRET = "ACCESS_TOKEN_SECRET"
+
+# قم بإنشاء مثيل من عميل Tweepy
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth)
+
+# استخدم search_tweets() للبحث عن تغريدات تحتوي على الهاشتاق
+search_results = api.search_tweets(q="#python")
+
+# طباعة نص التغريدات
+for tweet in search_results:
+    print(tweet.text)
+
+import tweepy
+
+import schedule
+
+
